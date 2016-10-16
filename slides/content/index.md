@@ -29,6 +29,19 @@ class: center, middle
 
 class: center, middle
 
+---
+
+### Agenga
+
+- Unit test EVERY SINGLE state change
+- Be careful passing anonymous functions
+- Use Enzyme
+- Memoize selectors to be sure you don’t change more state than you realize
+- Passing in state through props is an anti-pattern
+- Don't over use route params with react router because you can rightly couple logic to your business logic
+
+---
+
 # Thanks!
 
 ![](images/balmer.gif)
