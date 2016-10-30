@@ -1,0 +1,19 @@
+{
+  "name": "universal-apps-lessons-from-the-trenches",
+  "version": "1.0.0",
+  "description": "Slides and demo for Advanced WebPack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcreamer898/universal-apps-lessons-from-the-trenches.git"
+  },
+  "author": "Jonathan Creamer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jcreamer898/universal-apps-lessons-from-the-trenches/issues"
+  },
+  "homepage": "https://github.com/jcreamer898/universal-apps-lessons-from-the-trenches#readme"
+}
