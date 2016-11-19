@@ -75,9 +75,9 @@ then react
 
 ### Can you even universal app bro?
 
-* node.js
-* react
 * ~~Isomorphic~~
+* node.js
+* react renderToString
 * One code base
 * Same components on client and server
 * JavaScript everywhere
@@ -117,18 +117,6 @@ Who's actually USING it?
 class: center, middle
 
 # Getting Started
-
----
-
-### Ask yourself...
-
-* DO YOU NEED IT?
-* It's tough
-* But, worth it...
-
-???
-
-It's tough
 
 ---
 
@@ -179,21 +167,13 @@ class: center, middle
 
 ---
 
-### Walk before you crawl
+### Learn the basics
 
-* Learn the basics
-* KISS (keep it simple stupid)
-* Avoid unnecessary complexity
+<blockquote data-conversation="none" data-lang="en"><p lang="en" dir="ltr">Learn React in the right order: <a href="https://t.co/RhzRGzEIe0">https://t.co/RhzRGzEIe0</a> <a href="https://t.co/uVdrYW2dbo">pic.twitter.com/uVdrYW2dbo</a></p>&mdash; Dan Abramov (@dan_abramov) <a href="https://twitter.com/dan_abramov/status/703214489387327488">February 26, 2016</a></blockquote>
 
 ???
 
-At least at first
-
----
-
-### Walk before you crawl
-
-<blockquote data-conversation="none" data-lang="en"><p lang="en" dir="ltr">Learn React in the right order: <a href="https://t.co/RhzRGzEIe0">https://t.co/RhzRGzEIe0</a> <a href="https://t.co/uVdrYW2dbo">pic.twitter.com/uVdrYW2dbo</a></p>&mdash; Dan Abramov (@dan_abramov) <a href="https://twitter.com/dan_abramov/status/703214489387327488">February 26, 2016</a></blockquote>
+Avoid unnecessary complexity
 
 ---
 class: center, middle
@@ -429,12 +409,45 @@ router.get("/", function(req, res) {
 
 ---
 
+
+### react-router on the server
+
+```js
+import { match as reactRouterMatch } from "react-router";
+
+export default function match(routes) {
+  return (req, res, next) => {
+    const request = req;
+
+    if (!routes) next(new Error("No routes passed to the matchMiddle middleware."));
+
+    reactRouterMatch({ routes, location: req.url }, (err, redirectLocation, props) => {
+      if (err) {
+        next(err);
+      } else if (redirectLocation) {
+        res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+      } else if (props) {
+        request.props = props;
+        next();
+      } else {
+        next("route");
+      }
+    });
+  };
+}
+```
+
+* Expose `match` middleware
+* Adds `props` to `request`
+
+---
+
 ### State
 
 ```js
 /* imports ... */
 
-router.get("/", function(req, res) {
+router.get("/", match, function(req, res) {
   const initialState = { /* ... */};
 
   const store = createStore(
@@ -474,35 +487,9 @@ router.get("/", function(req, res) {
 
 ---
 
-### react-router on the server
+### Universal App in Production
 
-```js
-import { match as reactRouterMatch } from "react-router";
-
-export default function match(routes) {
-  return (req, res, next) => {
-    const request = req;
-
-    if (!routes) next(new Error("No routes passed to the matchMiddle middleware."));
-
-    reactRouterMatch({ routes, location: req.url }, (err, redirectLocation, props) => {
-      if (err) {
-        next(err);
-      } else if (redirectLocation) {
-        res.redirect(302, redirectLocation.pathname + redirectLocation.search);
-      } else if (props) {
-        request.props = props;
-        next();
-      } else {
-        next("route");
-      }
-    });
-  };
-}
-```
-
-* Expose `match` middleware
-* Adds `props` to `request`
+* http://www.lonelyplanet.com/usa/nashville/restaurants/a/poi-eat/362228
 
 ---
 class: center, middle
