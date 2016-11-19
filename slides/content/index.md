@@ -31,7 +31,7 @@ class: center, middle
 
 ---
 
-### Agenga
+### Agenda
 
 1. What is this Universal App thing all about?
 1. How to get started
@@ -207,10 +207,9 @@ class: center, middle
 * What do you "need"
 * babel, babel-preset-es2015, babel-preset-react
 * react, react-dom
-* redux, react-redux
 * react-router
-* helmet (optional)
 * webpack, babel-loader
+* redux, react-redux, helmet (optional)
 
 ---
 
@@ -660,6 +659,8 @@ const mapStateToProps = state => ({
 });
 ```
 
+* Word of caution on the server
+
 ---
 
 ### Same with functions
@@ -698,12 +699,66 @@ render() {
 
 * All better
 
+---
+
+### SRP Reducers
+
+```js
+// Don't
+export default function ListReducer(state = {
+  items = [],
+  filters = {},
+}, action) {
+  switch (action.type) {
+    case FETCH_DONE: {
+      return {
+        items: [...action.payload],
+        filters: { ...state.filters },
+      };
+    }
+    case FILTER_DONE: {
+      return {
+        items: [...state.items],
+        filters: { ...action.payload.filters },
+      };
+    }
+  }
+}
+```
+
+* Too much in one
+
+---
+
+### SRP Reducers
+
+```js
+// Don't
+export function ListReducer(state = [], action) {
+  switch (action.type) {
+    case FETCH_DONE: {
+      return [...action.payload];
+    }
+  }
+}
+
+export function FilterReducer(state = {}, action) {
+  switch (action.type) {
+    case FILTER_DONE: {
+      return { ...action.payload.filters };
+    }
+  }
+}
+```
+
+* Easier to test
+* Update independently
+* Manage state separately
+
 
 ---
 
 # Thanks!
-
-![](images/balmer.gif)
 
 ### [@jcreamer898](http://twitter.com/jcreamer898)
 ### [jonathancreamer.com](http://jonathancreamer.com)
