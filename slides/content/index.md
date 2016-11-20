@@ -159,7 +159,13 @@ class: center, middle
 * https://github.com/erikras/react-redux-universal-hot-example
 --
 
-* ...
+* and lots...
+--
+
+* https://github.com/coryhouse/react-slingshot
+--
+
+* ..
 ---
 class: center, middle
 
