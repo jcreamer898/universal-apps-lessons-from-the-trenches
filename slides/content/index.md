@@ -75,9 +75,10 @@ then react
 
 ### Can you even universal app bro?
 
-* ~~Isomorphic~~
 * node.js
+* Share client/server, Backbone, etc...
 * react renderToString
+* ~~Isomorphic~~
 * One code base
 * Same components on client and server
 * JavaScript everywhere
