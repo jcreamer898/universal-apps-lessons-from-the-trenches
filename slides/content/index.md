@@ -257,6 +257,7 @@ export default function Home() {
 ### Routing
 
 ```js
+import { connected as AppComponent } from "./components/app"
 import Home from "./components/home";
 import Users from "./components/users";
 
@@ -328,8 +329,8 @@ export default function configureStore(initialState) {
     ),
   );
 
-  // Optional, but nice
-  window.$$store = store;
+  // Optional, but nice; need typeof check for back end
+  typeof window !== "undefined" && window.$$store = store;
 
   return store;
 }
@@ -354,6 +355,7 @@ if (process.env.NODE_ENV === "development" && module.hot) {
 
 * Hot Load w/ webpack for dev
 * Requires a pretty advanced webpack setup
+* Phenomenal way to dev
 
 ---
 class: center, middle
@@ -383,6 +385,7 @@ npm install -g express-generator
 ???
 
 Update ./bin/www to point to server/app in dev, dist/server/app in prod
+Allows you to use ALL latest features regardless of node version
 
 ---
 ### Super basic backend
@@ -437,6 +440,8 @@ export default function match(routes) {
 }
 ```
 
+* Need to match back end routes with clientside routes
+* This enables the progressive enhancement/spa combo
 * Expose `match` middleware
 * Adds `props` to `request`
 
@@ -470,6 +475,7 @@ router.get("/", match, function(req, res) {
 });
 ```
 
+* Call match middleware
 * Setup initial state
 * RouterContext allows for server rendering
 
@@ -484,12 +490,14 @@ router.get("/", match, function(req, res) {
 ```
 
 * HBS view engine, or even JSX, meh
+* Pass initialState to redux store
 
 ---
 
 ### Universal App in Production
 
 * http://www.lonelyplanet.com/usa/nashville/restaurants/a/poi-eat/362228
+* http://www.lonelyplanet.com/usa/nashville/restaurants/hattie-bs/a/poi-eat/1513072/362228
 
 ---
 class: center, middle
@@ -500,18 +508,9 @@ class: center, middle
 
 ### Lessons learned
 
+* Take it slow, Rome wasn't built in a day
 * It's hard
 * BUT fun and totes worth it
-
----
-
-### Lessons learned
-
-* Take it slow
-
-???
-
-Rome wasn't built in a day
 
 ---
 
@@ -746,6 +745,8 @@ export function FilterReducer(state = {}, action) {
 ---
 
 # Thanks!
+
+<img style="width:50%" src="images/clap.gif" />
 
 ### [@jcreamer898](http://twitter.com/jcreamer898)
 ### [jonathancreamer.com](http://jonathancreamer.com)
