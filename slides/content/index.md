@@ -458,11 +458,8 @@ export default function match(routes) {
 ### State
 
 ```js
-/* imports ... */
-
 router.get("/", match, function(req, res) {
   const initialState = { /* ... */};
-
   const store = createStore(
     reducers,
     initialState,
@@ -470,15 +467,18 @@ router.get("/", match, function(req, res) {
   );
 
   const markup = renderToString(
-  <Provider store={store}>
-    <RouterContext {...req.props} />
-  </Provider>
-  );
+    <Provider store={store}>
+      <RouterContext {...req.props} />
+    </Provider>);
+  const head = Helment.rewind();
 
   res.render("index", {
     title: "Express",
     markup,
-    initialState
+    initialState: JSON.stringify(store.getState()),
+    head: {
+      title: head.title.toString(),
+    }
   });
 });
 ```
