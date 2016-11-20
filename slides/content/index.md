@@ -2,6 +2,7 @@ name: intro
 class: center, middle
 
 # Universal Apps Lessons from the Trenches
+#### http://bit.ly/universal-app-lessons
 
 ---
 class: center, middle
