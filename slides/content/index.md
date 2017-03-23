@@ -193,9 +193,9 @@ class: center, middle
 ### Start simple...ish
 
 * What do you "need"
-* babel, babel-preset-es2015, babel-preset-react
+* babel, babel-preset-env, babel-preset-react
 * react, react-dom
-* react-router
+* react-router v3
 * webpack, babel-loader
 * redux, react-redux, helmet (optional)
 
@@ -248,10 +248,10 @@ render() {
 
 ---
 
-### Containers
+### Build some components
 
 ```js
-export default function Home() {
+export default function Home({ dem, props, tho }) {
   return (
     <div className="Home">
       // ...
@@ -416,7 +416,7 @@ router.get("/", function(req, res) {
 ```
 
 * Express? Hapi? ...?
-* ReactDOM/renderToString
+* ReactDOM/server renderToString
 
 ---
 
@@ -489,6 +489,28 @@ router.get("/", match, function(req, res) {
 
 ---
 
+### Helmet on the server
+
+```js
+handler(req, res, next) {
+  const head = Helmet.rewind();
+
+  res.render("home", {
+    title: head.title.toString(),
+    meta: head.meta.toString(),
+    script: head.script.toString(),
+    link: head.link.toString(),
+  });
+}
+```
+
+* Do NOT forget to call rewind
+* Memory leaks :(
+
+---
+
+---
+
 ### state
 
 ```html
@@ -524,6 +546,15 @@ class: center, middle
 
 ### TEST ALL TEH THINGS
 
+* Use Jest or...
+* Mocha, chai, NYC + Istanbul for testing and code coverage
+* Mix and match Jest + Chai if you wanna get crazy
+* Just pick something, and TEST IT ALL
+
+---
+### Testing Components
+
+
 ```js
 describe("<Button />", () => {
   it("should have an onclick", () => {
@@ -538,7 +569,7 @@ describe("<Button />", () => {
 
 * Use airbnb's [Enzyme](https://github.com/airbnb/enzyme)
 * Sinon for mocking
-* Mocha, chai, NYC + Istanbul for testing and code coverage
+* Jest has built in mocking as well
 
 ---
 
@@ -561,6 +592,49 @@ describe("bookingReducer", () => {
 
 * Testing ALL state changes is huge
 * Greatly reduces risks of bugs
+
+---
+### Snapshot 
+
+```js
+import channel from "../channel";
+import { FETCH_CHANNEL_DONE } from "../../constants";
+describe("channel reducer", () => {
+  it("should fetch a channel", () => {
+    const state = channel({}, {
+      type: FETCH_CHANNEL_DONE,
+      payload: {
+        id: "2",
+        name: "My Channel",
+      },
+    });
+
+    expect(state).toMatchSnapshot();
+  });
+});
+```
+* Will generate a __snapshots__ folder
+* Update the snapshot
+* Can even do that w/ Components!
+
+---
+
+### Snapshots
+```js
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`channel reducer should fetch a channel 1`] = `
+Object {
+  "id": "2",
+  "name": "My Channel",
+}
+`;
+
+```
+* Use watch mode as well
+* Update it if it changes
+* Can use it to render components as well
+
 ---
 
 ### Test all actions
@@ -653,7 +727,15 @@ const mapStateToProps = state => ({
 });
 ```
 
-* Word of caution on the server
+* Won't rerun selector
+
+---
+### Reselect on the server
+
+<img style="width:80%" src="images/memory.png" />
+
+* Be careful not to overuse it
+* Sawtooths are NEVER good
 
 ---
 
