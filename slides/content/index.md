@@ -509,8 +509,6 @@ handler(req, res, next) {
 
 ---
 
----
-
 ### state
 
 ```html
